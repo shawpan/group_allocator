@@ -89,7 +89,7 @@ def train_and_evaluate():
                        steps = CONFIG['EVAL_STEPS'],
                        exporters=exporter,
                        start_delay_secs = 1, # start evaluating after N seconds
-                       throttle_secs = 10)
+                       throttle_secs = 2)
     tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
     print("Finished training")
 
