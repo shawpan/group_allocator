@@ -102,3 +102,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# environment
+group_allocator_environment
+
+# tensorflow checkpoints
+trainer/predict_spend_model/*
+!trainer/predict_spend_model/export
+
+trainer/predict_activity_change_model/*
+!trainer/predict_activity_change_model/export
