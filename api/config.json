@@ -1,0 +1,27 @@
+{
+  "prediction_api": "http://localhost:8501/v1/models/{}:regress",
+  "input_keys": {
+    "feature_2": "",
+    "feature_3": 0.0,
+    "feature_4": 0.0,
+    "feature_5": 0.0,
+    "feature_6": 0.0,
+    "feature_7": "",
+    "feature_8": "",
+    "feature_9": "",
+    "feature_10": 0.0,
+    "feature_11": 0.0,
+    "feature_12": 0.0,
+    "feature_13": 0.0,
+    "feature_14": "",
+    "feature_15": 0.0,
+    "feature_16": 0.0,
+    "feature_17": 0.0,
+    "feature_18": ""
+  },
+  "OBJECTIVES": {
+    "PREDICT_SPEND": "spend",
+    "PREDICT_ACTIVITY": "activity"
+  },
+  "ACTIVITY_DECREASE_THRESHOLD": 0.0
+}
