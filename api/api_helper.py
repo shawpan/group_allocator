@@ -34,7 +34,6 @@ def validate_input(request):
         input = {}
         for key, default_value in get_config()['input_keys'].items():
             input[key] = request.form.get(key, default_value, type=type(default_value))
-        input['player_group'] = group
         inputs.append(input)
 
     return True, 'Input is valid', inputs
@@ -59,9 +58,13 @@ def get_predictions(inputs, request):
 
     for objective in objectives:
         if objective == CONFIG['OBJECTIVES']['PREDICT_SPEND']:
-            spend_result = make_request('predict_spend', payload)
+            spend_result_a = make_request('predict_spend_a', payload)
+            spend_result_b = make_request('predict_spend_b', payload)
+            spend_result = { 'results': [ spend_result_a['results'][0], spend_result_b['results'][0] ] }
         if objective == CONFIG['OBJECTIVES']['PREDICT_ACTIVITY']:
-            activity_change_result = make_request('predict_activity_change', payload)
+            activity_change_result_a = make_request('predict_activity_change_a', payload)
+            activity_change_result_b = make_request('predict_activity_change_b', payload)
+            activity_change_result = { 'results': [ activity_change_result_a['results'][0], activity_change_result_b['results'][0] ] }
 
     return spend_result, activity_change_result
 
