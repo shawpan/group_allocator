@@ -8,4 +8,4 @@ docker run -p 8501:8501 \
      -t tensorflow/serving --model_config_file=/models/models.config &
 
 # Start flask api server
-# FLASK_APP=api/group_allocator_api.py flask run --host=0.0.0.0 &
+FLASK_APP=api/group_allocator_api.py flask run --host=0.0.0.0 &
