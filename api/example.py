@@ -24,8 +24,10 @@ def test(row):
         "feature_18": row["feature_18"],
     }
     r = requests.post(url=API_ENDPOINT, data=data)
+    spend = row['test_spend_7d'] / 7.0
+    activity_change = ( (row['test_games_7d'] / 7.0) - (row['feature_1_games_30d'] / 30.0) )
+    print("Actual group={}, spend={}, activity={}".format(row["player_group"], spend, activity_change))
     print("{}".format(r.text))
-    print("Actual {}".format(row["spend"]))
 
 
 if __name__ == "__main__":
@@ -59,12 +61,12 @@ if __name__ == "__main__":
         'activity_rate' : np.double,
         'spend' : np.double,
     }
-    API_ENDPOINT = "http://0.0.0.0:5000/group_allocator/predict?objective={}".format(args.objective)
+    API_ENDPOINT = "http://0.0.0.0:5000/group_allocator/predict?objective=spend&objective=activity".format(args.objective)
     # 2578380,73.0,SU4,75.0,41.0,10.0,112.0,YW5kc,ZW4,eGlhb,0.0,1.0,0.0,41.0,null,4.0,50.0,44.0,KzA1OjMw,19.0,0.0,A,0.7106714423787595,0.2809523809523813,0.0
-    df = pd.read_csv("train.csv.gz", sep=",", compression='gzip', na_values=["null", ""], dtype=dtypes)
+    df = pd.read_csv("data.csv.gz", sep=",", compression='gzip', na_values=["null", ""], dtype=dtypes)
     i = 0
     for index, row in df.iterrows():
-        if i > 10:
+        if i > 1:
             break
         test(row)
         i = i + 1

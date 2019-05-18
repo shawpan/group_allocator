@@ -39,6 +39,33 @@ def validate_input(request):
     return True, 'Input is valid', inputs
 
 """
+Get value from results object
+Arguments:
+    result: prediction result object
+Returns:
+    value from result
+"""
+def get_value(result):
+    try:
+        value = result['results'][0]
+        return value
+    except Exception as e:
+        return None
+
+"""
+Get predictions results joined in one
+Arguments:
+    result_a: prediction result of model_a
+    result_b: prediction result of model_b
+Returns:
+    joined results
+"""
+def get_joined_result(result_a, result_b):
+    return {
+        'results': [ get_value(result_a), get_value(result_b) ]
+    }
+
+"""
 Get predictions for both groups for the different objectives
 Arguments:
     inputs: list of input object
@@ -60,11 +87,11 @@ def get_predictions(inputs, request):
         if objective == CONFIG['OBJECTIVES']['PREDICT_SPEND']:
             spend_result_a = make_request('predict_spend_a', payload)
             spend_result_b = make_request('predict_spend_b', payload)
-            spend_result = { 'results': [ spend_result_a['results'][0], spend_result_b['results'][0] ] }
+            spend_result = get_joined_result(spend_result_a, spend_result_b)
         if objective == CONFIG['OBJECTIVES']['PREDICT_ACTIVITY']:
             activity_change_result_a = make_request('predict_activity_change_a', payload)
             activity_change_result_b = make_request('predict_activity_change_b', payload)
-            activity_change_result = { 'results': [ activity_change_result_a['results'][0], activity_change_result_b['results'][0] ] }
+            activity_change_result = get_joined_result(activity_change_result_a, activity_change_result_b)
 
     return spend_result, activity_change_result
 
@@ -87,15 +114,16 @@ def get_best_group_single_objective(result):
 """
 Get best group for activity based on the predicted values
 Arguments:
-    result: prediction result
+    group_max_spend: group index with maximum spend
+    activity_change_result: prediction result for activity_change
 Returns:
-    group (string)
+    group (int)
 """
-def get_best_group(group_max_spend, result):
+def get_best_group(group_max_spend, activity_change_result):
     try:
         CONFIG = get_config()
-        activity_change_max_spend = result["results"][group_max_spend]
-        activity_change_other_group = result["results"][1 - group_max_spend]
+        activity_change_max_spend = activity_change_result["results"][group_max_spend]
+        activity_change_other_group = activity_change_result["results"][1 - group_max_spend]
         # if activity decreased more than expected and less than the other group
         # return other group
         if activity_change_max_spend < CONFIG['ACTIVITY_DECREASE_THRESHOLD'] and activity_change_other_group > activity_change_max_spend:
@@ -126,7 +154,9 @@ def get_allocated_group(inputs, request):
     if spend_result is None:
         return groups[group_max_activity], spend_result, activity_change_result
 
-    return get_best_group(group_max_spend, activity_change_result), spend_result, activity_change_result
+    best_group_index = get_best_group(group_max_spend, activity_change_result)
+    
+    return groups[best_group_index], spend_result, activity_change_result
 
 """
 Make request to prediction api
