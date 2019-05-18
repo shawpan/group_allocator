@@ -1,21 +1,21 @@
 {
-  "MODEL_NAME": "predict_spend",
+  "MODEL_NAME": "predict_spend_a",
   "CSV_SEPARATOR": ",",
   "RANDOM_SEED": 42,
   "EPSILON": 1e-08,
   "INFINITY": 1e12,
-  "DROPOUT": 0.0,
+  "DROPOUT": 0.2,
   "LEARNING_RATE": 0.001,
-  "BATCH_SIZE": 64,
-  "NUM_EPOCHS": 500,
+  "BATCH_SIZE": 128,
+  "NUM_EPOCHS": 5000,
   "EVAL_STEPS": 100,
   "NA_VALUES": ["null", ""],
-  "DATA_STATS_FILE": "stats.json",
+  "DATA_STATS_FILE": "stats_a.json",
   "DATASET_DIR": ["data/"],
-  "DATASET_FILES": ["data/data.csv.gz"],
-  "WEIGHTED_DATASET_FILES": ["data/w_data.csv.gz"],
-  "MODEL_DIR": "predict_spend_model",
-  "OUTPUT_DIR": "predict_spend_output",
+  "DATASET_FILES": ["data/a_data.csv.gz"],
+  "WEIGHTED_DATASET_FILES": ["data/a_data.csv.gz"],
+  "MODEL_DIR": "predict_spend_model_a",
+  "OUTPUT_DIR": "predict_spend_output_a",
   "WEIGHT_COLUMN" : "weight",
   "SAVE_CHECKPOINTS_STEPS": 100,
   "SAVE_SUMMARY_STEPS": 100,
@@ -24,7 +24,7 @@
   "DATASET_WEIGHT_LABELS": ["player_group"],
   "LEARNING_RATE_DECAY_STEPS": 1000,
   "LEARNING_RATE_DECAY_RATE": 0.96,
-  "NETWORK": [64, 64, 64, 64],
+  "NETWORK": [512, 256, 128, 64],
   "LABELS": [
     "spend"
   ],
@@ -33,15 +33,16 @@
     "feature_1_games_30d",
     "test_games_7d",
     "test_spend_7d",
-    "activity_change"
+    "activity_change",
+    "player_group"
   ],
   "DATASET_TRAIN": [
-    "data/train"
+    "data/train_a"
   ],
   "DATASET_VAL": [
-    "data/eval"
+    "data/eval_a"
   ],
   "DATASET_TEST": [
-    "data/test"
+    "data/test_a"
   ]
 }

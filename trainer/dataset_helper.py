@@ -10,6 +10,22 @@ Split dataset to train/eval files
 Arguments:
     all_files: array of dataset files
 """
+def split_dataset_into_two_groups(all_files):
+    print("Started splitting dataset to A/B group")
+    CONFIG = config.get_config()
+    dtypes = config.get_types_of_attributes()
+    df = pd.concat((pd.read_csv(f, sep=CONFIG['CSV_SEPARATOR'], compression='gzip', na_values=CONFIG['NA_VALUES'], dtype=dtypes) for f in all_files))
+    group_a = df[df['player_group'] == 'A']
+    group_b = df[df['player_group'] == 'B']
+    group_a.to_csv("data/a_data.csv.gz", compression="gzip", sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
+    group_b.to_csv("data/b_data.csv.gz", compression="gzip", sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
+    print("Finished splitting dataset to A/B group")
+
+"""
+Split dataset to train/eval files
+Arguments:
+    all_files: array of dataset files
+"""
 def split_train_test(all_files):
     print("Started train test split")
     CONFIG = config.get_config()
@@ -17,13 +33,13 @@ def split_train_test(all_files):
     df = pd.concat((pd.read_csv(f, sep=CONFIG['CSV_SEPARATOR'], compression='gzip', na_values=CONFIG['NA_VALUES'], dtype=dtypes) for f in all_files))
     train = df.sample(frac=0.7, random_state=CONFIG['RANDOM_SEED'])
     test = df.drop(train.index)
-    train_data = train.to_csv(sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
-    test_data = test.to_csv(sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
+    train.to_csv("{}/train.csv.gz".format(CONFIG['DATASET_TRAIN'][0]), compression="gzip", sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
+    test.to_csv("{}/eval.csv.gz".format(CONFIG['DATASET_VAL'][0]), compression="gzip", sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
 
-    with gzip.open("data/train/train.csv.gz", "wb") as outfile:
-           outfile.write(train_data.encode('utf-8'))
-    with gzip.open("data/eval/eval.csv.gz", "wb") as outfile:
-           outfile.write(test_data.encode('utf-8'))
+    # with gzip.open("{}/train.csv.gz".format(CONFIG['DATASET_TRAIN']), "wb") as outfile:
+    #        outfile.write(train_data.encode('utf-8'))
+    # with gzip.open("{}/eval.csv.gz".format(CONFIG['DATASET_VAL']), "wb") as outfile:
+    #        outfile.write(test_data.encode('utf-8'))
     print("Finished train test split")
 
 """
@@ -96,13 +112,14 @@ def add_extra_columns_to_dataset(all_files):
 
     for f in all_files:
         df = pd.read_csv(f, sep=CONFIG['CSV_SEPARATOR'], compression='gzip', na_values=CONFIG['NA_VALUES'], dtype=dtypes)
-        df['weight'] = df.apply (lambda row: get_weight(row), axis=1)
+        df['weight'] = 1.0
+        # df['weight'] = df.apply (lambda row: get_weight(row), axis=1)
         df['activity_change'] = df.apply (lambda row: get_activity_rate(row), axis=1)
         df['spend'] = (df['test_spend_7d'] / 7.0)
 
-        new_data = df.to_csv(sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
+        df.to_csv("{}".format(f), compression="gzip", sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
         # new_data = gzip.compress(bytes(new_data, 'utf-8'))
-        with gzip.open("data/w_{}".format(os.path.basename(f)), "wb") as outfile:
-	           outfile.write(new_data.encode('utf-8'))
+        # with gzip.open("{}".format(CONFIG['WEIGHTED_DATASET_FILES']), "wb") as outfile:
+	    #        outfile.write(new_data.encode('utf-8'))
 
     print("Finished adding extra columns to dataset")

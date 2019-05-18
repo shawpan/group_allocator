@@ -22,8 +22,9 @@ def set_stats(STATS=None):
 
 def get_stats():
     global DATA_STATS
+    CONFIG = config.get_config()
     if DATA_STATS is None:
-        with open('stats.json', 'r') as f:
+        with open(CONFIG['DATA_STATS_FILE'], 'r') as f:
             DATA_STATS = json.load(f)
 
     return DATA_STATS
@@ -99,7 +100,7 @@ def _parse_line(line):
     CONFIG = config.get_config()
     features = tf.decode_csv(line, field_delim=CONFIG['CSV_SEPARATOR'], record_defaults=config.get_default_values_for_csv_columns(), na_value='null')
     features = dict(zip(get_column_names(), features))
-    
+
     for column in get_remove_columns():
         features.pop(column)
 

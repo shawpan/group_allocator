@@ -14,30 +14,30 @@ def get_config():
 def get_types_of_attributes():
     return {
         'player_id' : np.string_,
-        'feature_1_games_30d': np.double,       # 307219911482
-        'feature_2' : np.string_,              # 3
-        'feature_3' : np.double,                   # 01
-        'feature_4' : np.double,           # 2
-        'feature_5' : np.double,       # 12440
-        'feature_6' : np.double,       # 8084
-        'feature_7' : np.string_,    # 23678
-        'feature_8' : np.string_,       # null
-        'feature_9' : np.string_,      # null
-        'feature_10' : np.double,   # 300x250
-        'feature_11' : np.double,      # 0.707278907
-        'feature_12' : np.double,     # null
-        'feature_13' : np.double,         # 15166603496
-        'feature_14' : np.string_,        # 4
-        'feature_15' : np.double,     # 2
-        'feature_16' : np.double,           # 19930
-        'feature_17' : np.double,        # 100000
+        'feature_1_games_30d': np.double,
+        'feature_2' : np.string_,
+        'feature_3' : np.double,
+        'feature_4' : np.double,
+        'feature_5' : np.double,
+        'feature_6' : np.double,
+        'feature_7' : np.string_,
+        'feature_8' : np.string_,
+        'feature_9' : np.string_,
+        'feature_10' : np.double,
+        'feature_11' : np.double,
+        'feature_12' : np.double,
+        'feature_13' : np.double,
+        'feature_14' : np.string_,
+        'feature_15' : np.double,
+        'feature_16' : np.double,
+        'feature_17' : np.double,
         'feature_18' : np.string_,
         'test_games_7d': np.double,
-        'test_spend_7d': np.double,              # null
-        'player_group' : np.string_,         # null
-        'weight' : np.double,                 # 0
-        'activity_rate' : np.double,                 # 0
-        'spend' : np.double,                 # 0
+        'test_spend_7d': np.double,
+        'player_group' : np.string_,
+        'weight' : np.double,
+        'activity_rate' : np.double,
+        'spend' : np.double,        
     }
 
 def get_default_values_for_csv_columns():

@@ -1,5 +1,5 @@
 {
-  "MODEL_NAME": "predict_activity_change",
+  "MODEL_NAME": "predict_activity_change_b",
   "CSV_SEPARATOR": ",",
   "RANDOM_SEED": 42,
   "EPSILON": 1e-08,
@@ -10,12 +10,12 @@
   "NUM_EPOCHS": 500,
   "EVAL_STEPS": 100,
   "NA_VALUES": ["null", ""],
-  "DATA_STATS_FILE": "stats.json",
+  "DATA_STATS_FILE": "stats_b.json",
   "DATASET_DIR": ["data/"],
-  "DATASET_FILES": ["data/data.csv.gz"],
-  "WEIGHTED_DATASET_FILES": ["data/w_data.csv.gz"],
-  "MODEL_DIR": "predict_activity_change_model",
-  "OUTPUT_DIR": "predict_activity_change_output",
+  "DATASET_FILES": ["data/b_data.csv.gz"],
+  "WEIGHTED_DATASET_FILES": ["data/b_data.csv.gz"],
+  "MODEL_DIR": "predict_activity_change_b_model",
+  "OUTPUT_DIR": "predict_activity_change_b_output",
   "WEIGHT_COLUMN" : "weight",
   "SAVE_CHECKPOINTS_STEPS": 100,
   "SAVE_SUMMARY_STEPS": 100,
@@ -24,7 +24,7 @@
   "DATASET_WEIGHT_LABELS": ["player_group"],
   "LEARNING_RATE_DECAY_STEPS": 1000,
   "LEARNING_RATE_DECAY_RATE": 0.96,
-  "NETWORK": [64, 64, 64, 64],
+  "NETWORK": [512, 256, 128, 64],
   "LABELS": [
     "activity_change"
   ],
@@ -33,15 +33,16 @@
     "feature_1_games_30d",
     "test_games_7d",
     "test_spend_7d",
-    "spend"
+    "spend",
+    "player_group"
   ],
   "DATASET_TRAIN": [
-    "data/train"
+    "data/train_b"
   ],
   "DATASET_VAL": [
-    "data/eval"
+    "data/eval_b"
   ],
   "DATASET_TEST": [
-    "data/test"
+    "data/test_b"
   ]
 }

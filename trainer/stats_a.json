@@ -1,0 +1,218 @@
+{
+    "columns": {
+        "all": [
+            "player_id",
+            "feature_1_games_30d",
+            "feature_2",
+            "feature_3",
+            "feature_4",
+            "feature_5",
+            "feature_6",
+            "feature_7",
+            "feature_8",
+            "feature_9",
+            "feature_10",
+            "feature_11",
+            "feature_12",
+            "feature_13",
+            "feature_14",
+            "feature_15",
+            "feature_16",
+            "feature_17",
+            "feature_18",
+            "test_games_7d",
+            "test_spend_7d",
+            "player_group",
+            "weight",
+            "activity_change",
+            "spend"
+        ],
+        "categorical": [
+            "player_id",
+            "feature_2",
+            "feature_7",
+            "feature_8",
+            "feature_9",
+            "feature_14",
+            "feature_18",
+            "player_group"
+        ],
+        "numeric": [
+            "feature_1_games_30d",
+            "feature_3",
+            "feature_4",
+            "feature_5",
+            "feature_6",
+            "feature_10",
+            "feature_11",
+            "feature_12",
+            "feature_13",
+            "feature_15",
+            "feature_16",
+            "feature_17",
+            "test_games_7d",
+            "test_spend_7d",
+            "weight",
+            "activity_change",
+            "spend"
+        ]
+    },
+    "stats": {
+        "feature_1_games_30d": {
+            "count": 35178.0,
+            "mean": 226.6618625277,
+            "std": 311.6211674796,
+            "min": 0.0,
+            "max": 5572.0
+        },
+        "feature_3": {
+            "count": 35178.0,
+            "mean": 828.7269031781,
+            "std": 1149.6708663723,
+            "min": 0.0,
+            "max": 20271.0
+        },
+        "feature_4": {
+            "count": 35178.0,
+            "mean": 48.9792768207,
+            "std": 78.4441803837,
+            "min": 0.0,
+            "max": 3254.0
+        },
+        "feature_5": {
+            "count": 35178.0,
+            "mean": 15.3467508102,
+            "std": 11.1752398684,
+            "min": 0.0,
+            "max": 31.0
+        },
+        "feature_6": {
+            "count": 35178.0,
+            "mean": 304.3615043493,
+            "std": 407.1430704598,
+            "min": 0.0,
+            "max": 7103.0
+        },
+        "feature_10": {
+            "count": 35178.0,
+            "mean": 1215233059.6877594,
+            "std": 1435252917.2801278,
+            "min": 0.0,
+            "max": 34284482560.0
+        },
+        "feature_11": {
+            "count": 35178.0,
+            "mean": 0.9992324748,
+            "std": 0.0276940041,
+            "min": 0.0,
+            "max": 1.0
+        },
+        "feature_12": {
+            "count": 35178.0,
+            "mean": 7.3384217409,
+            "std": 28.8998602807,
+            "min": 0.0,
+            "max": 2975.0
+        },
+        "feature_13": {
+            "count": 35178.0,
+            "mean": 776.0323781909,
+            "std": 871.8314327858,
+            "min": 0.0,
+            "max": 3653.0
+        },
+        "feature_15": {
+            "count": 35178.0,
+            "mean": 4.6693387913,
+            "std": 12.5457162122,
+            "min": 0.0,
+            "max": 300.0
+        },
+        "feature_16": {
+            "count": 35178.0,
+            "mean": 19.1405139576,
+            "std": 118.6611686068,
+            "min": 0.0,
+            "max": 5337.0
+        },
+        "feature_17": {
+            "count": 35178.0,
+            "mean": 17.1649610552,
+            "std": 119.9547395636,
+            "min": 0.0,
+            "max": 5806.0
+        },
+        "test_games_7d": {
+            "count": 35178.0,
+            "mean": 65.5520211496,
+            "std": 83.6395981442,
+            "min": 0.0,
+            "max": 2230.0
+        },
+        "test_spend_7d": {
+            "count": 35178.0,
+            "mean": 12.3598271647,
+            "std": 100.4427056072,
+            "min": 0.0,
+            "max": 11578.0
+        },
+        "weight": {
+            "count": 35178.0,
+            "mean": 1.0,
+            "std": 0.0,
+            "min": 1.0,
+            "max": 1.0
+        },
+        "activity_change": {
+            "count": 35178.0,
+            "mean": 1.8091790323,
+            "std": 8.1500575306,
+            "min": -162.4476190476,
+            "max": 181.7047619048
+        },
+        "spend": {
+            "count": 35178.0,
+            "mean": 1.765689595,
+            "std": 14.3489579439,
+            "min": 0.0,
+            "max": 1654.0
+        },
+        "player_id": {
+            "count": 35178,
+            "unique": 35178
+        },
+        "feature_2": {
+            "count": 31636,
+            "unique": 172
+        },
+        "feature_7": {
+            "count": 31639,
+            "unique": 4
+        },
+        "feature_8": {
+            "count": 35178,
+            "unique": 29
+        },
+        "feature_9": {
+            "count": 29870,
+            "unique": 282
+        },
+        "feature_14": {
+            "count": 1590,
+            "unique": 129
+        },
+        "feature_18": {
+            "count": 31633,
+            "unique": 36
+        },
+        "player_group": {
+            "count": 35178,
+            "unique": 1
+        }
+    },
+    "weights": {
+        "count": {
+            "A": 35178
+        }
+    }
+}
