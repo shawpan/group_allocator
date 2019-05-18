@@ -17,6 +17,10 @@ def group_allocator():
     if not is_valid_input:
         return jsonify(success=False, errors = { 'message': message })
 
-    result = api_helper.get_allocated_group(inputs, request)
+    group, spend_result, activity_change = api_helper.get_allocated_group(inputs, request)
 
-    return jsonify({ 'result': result })
+    return jsonify({ 'result': {
+        'group': group,
+        'spendResult': spend_result,
+        'activityChange': activity_change
+    } })

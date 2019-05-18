@@ -33,11 +33,10 @@ def validate_input(request):
     for group in groups:
         input = {}
         for key, default_value in get_config()['input_keys'].items():
-            input[key] = request.form.get(key, default_value)
-            if str(input[key]).isnumeric():
-                input[key] = float(input[key])
+            input[key] = request.form.get(key, default_value, type=type(default_value))
         input['player_group'] = group
         inputs.append(input)
+
     return True, 'Input is valid', inputs
 
 """
@@ -119,12 +118,12 @@ def get_allocated_group(inputs, request):
 
     # if activity is not considered, return the group with highest spend
     if activity_change_result is None:
-        return groups[group_max_spend]
+        return groups[group_max_spend], spend_result, activity_change_result
     # if spend is not considered, return the group with highest activity
     if spend_result is None:
-        return groups[group_max_activity]
+        return groups[group_max_activity], spend_result, activity_change_result
 
-    return get_best_group(group_max_spend, activity_change_result)
+    return get_best_group(group_max_spend, activity_change_result), spend_result, activity_change_result
 
 """
 Make request to prediction api
@@ -136,7 +135,7 @@ Returns:
 """
 def make_request(model_name, payload):
     try:
-        r = requests.post(config.get_config()['prediction_api'].format(model_name), json=payload)
+        r = requests.post(get_config()['prediction_api'].format(model_name), json=payload)
         pred = json.loads(r.content.decode('utf-8'))
         return pred
     except Exception as e:
