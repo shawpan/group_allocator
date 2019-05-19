@@ -22,7 +22,9 @@ The procedure to run the application is described in [setup.md] https://github.c
    spend = test_spend_7d / 7.0
    activity_change =  (feature_1_games_30d / 30.0) / ( (test_games_7d + 1) / 7.0)
    ```
-   Mean, std, uniques etc are calculated for each column for two datasets and saved into two files for future use.
+   
+   Both Data_A and Data_B are splitted into train and eval file having 70/30 ratio of random instances.
+   Mean, std, uniques etc are calculated for each column for two train datasets and saved into two files for future use.
 3. For features `feature_2` - `feature_18` are used. Numeric columns are normalized using `(x-mean)/(std + epsilon)` and categorical columns are transformed to hash buckets and then into embedding columns. bucket size is the number of uniques of the feature and embedding size = `6 * number of unique^0.25` if `number of unique > 25` otherwise `number of unique`. `trainer/plot_data.ipynb` notebook draws basic joint distribution charts.
 
 4. Models are Neural Networks having different hyperparameters i.e, number of layers, number of nodes in each layer, learning rate etc. for model_spend and model_activity also dependiing on dataset A and B.
