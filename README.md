@@ -35,7 +35,6 @@ Tried `tf.estimator.BoostedTreesRegressor` but performance did not increase so s
      - `trainer/config_*.json` (4 files) have the configurations of hyperparameters.
 
 5. Evaluation metrics of each model is given in [metrics.md] https://github.com/shawpan/group_allocator/blob/master/metrics.md
-6. Performance is not satisfactory because training loss decreased but the evaluation loss decay is too low throughout the training process. Need more hyperparameter tuning.
 
 # Implementation
 1. Models are built and trained using Tensorflow and served using Tensorflow Server model docker image. `/trainer` directory has the necessary codes to train the models.
@@ -123,3 +122,7 @@ sample response
   }
 }
 ```
+
+# Remarks
+
+Performance can be improved further because training loss decreased but the evaluation loss decay is too low throughout the training process. Need more hyperparameter tuning. Both `tf.estimator.DNNLinearCombinedRegressor` and `tf.estimator.BoostedTreesRegressor`
