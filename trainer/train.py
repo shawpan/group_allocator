@@ -21,45 +21,63 @@ def get_weight_column():
         return CONFIG['WEIGHT_COLUMN']
     return None
 
-def get_dnn_regressor_model(hidden_units):
-    runConfig = tf.estimator.RunConfig(
+def get_run_config():
+    return tf.estimator.RunConfig(
         save_checkpoints_steps = CONFIG['SAVE_CHECKPOINTS_STEPS'],
         save_summary_steps = CONFIG['SAVE_SUMMARY_STEPS'],
-        tf_random_seed = CONFIG['RANDOM_SEED'])
+        tf_random_seed = CONFIG['RANDOM_SEED']
+    )
+
+def get_tree_model():
+    NUM_EXAMPLES = data.get_stats()['stats'][CONFIG['DATASET_ID']]['count']
+    estimator = tf.estimator.BoostedTreesRegressor(
+        feature_columns = data.get_feature_columns_for_tree(),
+        learning_rate = CONFIG['LEARNING_RATE'],
+        max_depth=6,
+        l1_regularization=0.5,
+        l2_regularization=0.5,
+        n_batches_per_layer = int(0.5 * NUM_EXAMPLES / CONFIG['BATCH_SIZE']),
+        model_dir = CONFIG['MODEL_DIR'],
+        weight_column = get_weight_column()
+    )
+    return estimator
+
+def get_dnn_regressor_model(hidden_units):
 
     estimator = tf.estimator.DNNLinearCombinedRegressor(
         model_dir = CONFIG['MODEL_DIR'],
         weight_column = get_weight_column(),
         batch_norm = True,
-        dnn_activation_fn=tf.nn.relu,
+        # dnn_activation_fn=tf.nn.relu,
         dnn_hidden_units = hidden_units,
         dnn_dropout = CONFIG['DROPOUT'],
         dnn_feature_columns = data.get_feature_columns(),
         dnn_optimizer = lambda: tf.train.AdamOptimizer(
-            learning_rate = CONFIG['LEARNING_RATE']
-            # learning_rate=tf.train.exponential_decay(
-            #         learning_rate=CONFIG['LEARNING_RATE'],
-            #         global_step=tf.train.get_global_step(),
-            #         decay_steps=CONFIG['LEARNING_RATE_DECAY_STEPS'],
-            #         decay_rate=CONFIG['LEARNING_RATE_DECAY_RATE']
-            #     )
+            # learning_rate = CONFIG['LEARNING_RATE']
+            learning_rate=tf.train.exponential_decay(
+                    learning_rate=CONFIG['LEARNING_RATE'],
+                    global_step=tf.train.get_global_step(),
+                    decay_steps=CONFIG['LEARNING_RATE_DECAY_STEPS'],
+                    decay_rate=CONFIG['LEARNING_RATE_DECAY_RATE']
+                )
             ),
         linear_feature_columns = data.get_feature_columns(),
         linear_optimizer = lambda: tf.train.AdamOptimizer(
-            learning_rate = CONFIG['LEARNING_RATE']
-            # learning_rate=tf.train.exponential_decay(
-            #         learning_rate=CONFIG['LEARNING_RATE'],
-            #         global_step=tf.train.get_global_step(),
-            #         decay_steps=CONFIG['LEARNING_RATE_DECAY_STEPS'],
-            #         decay_rate=CONFIG['LEARNING_RATE_DECAY_RATE']
-            #     )
+            # learning_rate = CONFIG['LEARNING_RATE']
+            learning_rate=tf.train.exponential_decay(
+                    learning_rate=CONFIG['LEARNING_RATE'],
+                    global_step=tf.train.get_global_step(),
+                    decay_steps=CONFIG['LEARNING_RATE_DECAY_STEPS'],
+                    decay_rate=CONFIG['LEARNING_RATE_DECAY_RATE']
+                )
             ),
-        config=runConfig)
+        config=get_run_config())
 
     return estimator
 
 """ Get the model definition """
 def get_model():
+    # return get_tree_model()
     return get_dnn_regressor_model(CONFIG['NETWORK'])
 
 def ensemble_architecture(result):
@@ -91,8 +109,12 @@ def train_and_evaluate():
                        steps = CONFIG['EVAL_STEPS'],
                        exporters=exporter,
                        start_delay_secs = 1, # start evaluating after N seconds
-                       throttle_secs = 2)
+                       throttle_secs = 5)
     tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
+    # estimator.evaluate(
+    #     input_fn=lambda : data.validation_input_fn(batch_size=CONFIG['BATCH_SIZE']),
+    #     steps=15000 / CONFIG['BATCH_SIZE']
+    # )
     print("Finished training")
 
 def main(argv):

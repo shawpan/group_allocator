@@ -6,8 +6,10 @@ import dataset_helper
 
 def transform(CONFIG):
     dataset_helper.add_extra_columns_to_dataset(CONFIG['DATASET_FILES'])
-    dataset_helper.calculate_stats(CONFIG['DATASET_FILES'])
     dataset_helper.split_train_test(CONFIG['DATASET_FILES'])
+    path = CONFIG['DATASET_TRAIN'][0]
+    train_files = [ os.path.join(path, p) for p in os.listdir(path) if p.endswith('.gz') ]
+    dataset_helper.calculate_stats(train_files)
 
 def main():
     os.environ['GA_CONFIG_PATH'] = 'config_spend_regressor_a.json'

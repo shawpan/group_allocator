@@ -41,6 +41,32 @@ def normalize(stats):
 #     fn = lambda x: (tf.to_float(x) - stats['min']) / (stats['max'] - stats['min'] + CONFIG["EPSILON"])
     return fn
 
+def get_feature_columns3():
+    stats = get_stats()
+    CONFIG = config.get_config()
+    numeric_features = []
+    for key in stats['columns']['numeric']:
+        if key in get_remove_columns() + get_label_column() + [ CONFIG['WEIGHT_COLUMN'] ]:
+            continue
+        numeric_features.append(
+            tf.feature_column.numeric_column(key, normalizer_fn = normalize(stats['stats'][key]))
+        )
+
+    categorical_features = []
+    for key in stats['columns']['categorical']:
+        if key in get_remove_columns() + get_label_column() + [ CONFIG['WEIGHT_COLUMN'] ]:
+            continue
+        stat = stats['stats'][key]
+        embedding_size = 6.0 * math.ceil(stat['unique']**0.25) if stat['unique'] > 25 else stat['unique']
+        categorical_features.append(
+            tf.feature_column.indicator_column(
+                tf.feature_column.categorical_column_with_vocabulary_list(key,
+                                                 stat['unique_values']))
+        )
+    features = numeric_features + categorical_features
+
+    return features
+
 def get_feature_columns2():
     stats = get_stats()
     CONFIG = config.get_config()
@@ -75,6 +101,11 @@ def get_feature_columns():
     prepare_csv_column_list()
 
     return get_feature_columns2()
+
+def get_feature_columns_for_tree():
+    prepare_csv_column_list()
+
+    return get_feature_columns3()
 
 def get_remove_columns():
     return REMOVE_COLUMNS

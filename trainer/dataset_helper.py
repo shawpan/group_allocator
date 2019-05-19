@@ -55,6 +55,8 @@ def calculate_stats(all_files):
     stats_categorical = json.loads(df.describe(include='O').loc[[
         'count', 'unique'
     ]].to_json())
+    for key, val in stats_categorical.items():
+        stats_categorical[key]['unique_values'] = df[key].dropna().unique().tolist()
     stats_numeric = json.loads(df.describe().loc[[
         'count', 'mean', 'std', 'min', 'max'
     ]].to_json())
@@ -108,7 +110,7 @@ def add_extra_columns_to_dataset(all_files):
         return total / ( ( 2.0 ** len(labels) ) * freq )
 
     def get_activity_rate(row):
-        return ( (row['test_games_7d'] / 7.0) - (row['feature_1_games_30d'] / 30.0) )
+        return ( ( row['feature_1_games_30d'] / 30.0) / ( ( row['test_games_7d'] + 1 ) / 7.0) )
 
     for f in all_files:
         df = pd.read_csv(f, sep=CONFIG['CSV_SEPARATOR'], compression='gzip', na_values=CONFIG['NA_VALUES'], dtype=dtypes)

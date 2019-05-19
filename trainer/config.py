@@ -37,7 +37,7 @@ def get_types_of_attributes():
         'player_group' : np.string_,
         'weight' : np.double,
         'activity_rate' : np.double,
-        'spend' : np.double,        
+        'spend' : np.double        
     }
 
 def get_default_values_for_csv_columns():
