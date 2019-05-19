@@ -23,6 +23,7 @@ def test(row):
         "feature_17": row["feature_17"],
         "feature_18": row["feature_18"],
     }
+    print(data)
     r = requests.post(url=API_ENDPOINT, data=data)
     spend = row['test_spend_7d'] / 7.0
     activity_change = ( (row['test_games_7d'] / 7.0) - (row['feature_1_games_30d'] / 30.0) )
