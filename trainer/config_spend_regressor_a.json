@@ -1,13 +1,13 @@
 {
   "MODEL_NAME": "predict_spend_a",
   "CSV_SEPARATOR": ",",
-  "RANDOM_SEED": 42,
+  "RANDOM_SEED": 43,
   "EPSILON": 1e-08,
   "INFINITY": 1e12,
-  "DROPOUT": 0.2,
-  "LEARNING_RATE": 0.001,
-  "BATCH_SIZE": 128,
-  "NUM_EPOCHS": 5000,
+  "DROPOUT": 0.0,
+  "LEARNING_RATE": 0.000001,
+  "BATCH_SIZE": 16,
+  "NUM_EPOCHS": 10000,
   "EVAL_STEPS": 100,
   "NA_VALUES": ["null", ""],
   "DATA_STATS_FILE": "stats_a.json",
@@ -24,7 +24,7 @@
   "DATASET_WEIGHT_LABELS": ["player_group"],
   "LEARNING_RATE_DECAY_STEPS": 1000,
   "LEARNING_RATE_DECAY_RATE": 0.96,
-  "NETWORK": [512, 256, 128, 64],
+  "NETWORK": [16,16],
   "LABELS": [
     "spend"
   ],

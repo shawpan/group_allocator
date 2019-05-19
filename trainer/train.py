@@ -36,6 +36,7 @@ def get_dnn_regressor_model(hidden_units):
         dnn_dropout = CONFIG['DROPOUT'],
         dnn_feature_columns = data.get_feature_columns(),
         dnn_optimizer = lambda: tf.train.AdamOptimizer(
+            learning_rate = CONFIG['LEARNING_RATE']
             # learning_rate=tf.train.exponential_decay(
             #         learning_rate=CONFIG['LEARNING_RATE'],
             #         global_step=tf.train.get_global_step(),
@@ -45,6 +46,7 @@ def get_dnn_regressor_model(hidden_units):
             ),
         linear_feature_columns = data.get_feature_columns(),
         linear_optimizer = lambda: tf.train.AdamOptimizer(
+            learning_rate = CONFIG['LEARNING_RATE']
             # learning_rate=tf.train.exponential_decay(
             #         learning_rate=CONFIG['LEARNING_RATE'],
             #         global_step=tf.train.get_global_step(),
