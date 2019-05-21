@@ -5,9 +5,9 @@
   "EPSILON": 1e-08,
   "INFINITY": 1e12,
   "DROPOUT": 0.0,
-  "LEARNING_RATE": 0.000000001,
+  "LEARNING_RATE": 1e-4,
   "BATCH_SIZE": 16,
-  "NUM_EPOCHS": 5000,
+  "NUM_EPOCHS": 15000,
   "EVAL_STEPS": 100,
   "NA_VALUES": ["null", ""],
   "DATA_STATS_FILE": "stats_a.json",
@@ -22,7 +22,7 @@
   "DATASET_ID": "player_id",
   "DATASET_WEIGHT_LABELS": ["player_group"],
   "LEARNING_RATE_DECAY_STEPS": 1000,
-  "LEARNING_RATE_DECAY_RATE": 0.96,
+  "LEARNING_RATE_DECAY_RATE": 0.001,
   "NETWORK": [16,16],
   "LABELS": [
     "spend"
