@@ -97,6 +97,7 @@ def get_dnn_regressor_model(hidden_units):
 def get_base_line_model():
     # INFO:tensorflow:Saving dict for global step 4500: average_loss = 65.69961, global_step = 4500, label/mean = 1.5194641, loss = 1051.1937, prediction/mean = 1.5942994
     return tf.estimator.BaselineRegressor()
+
 def get_linear_model():
     estimator = tf.estimator.LinearRegressor(
         feature_columns = data.get_feature_columns(),

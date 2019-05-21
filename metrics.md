@@ -1,8 +1,10 @@
 # Evaluation metrics
 
-**Spend Prediction on A**
+`tf.estimator.BaseLineRegerssor` is used to find the baseline metrics
 
-metric `average_loss`, `train=3.18` and `eval=97.45`
+**Spend Prediction on A**
+baseline `average_loss`, `eval=65.7`
+metric `average_loss`, `eval=58.8`
 
 **Spend Prediction on B**
 
