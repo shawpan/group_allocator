@@ -1,3 +1,4 @@
+""" Helper methods for dataset transformation """
 import json
 import pandas as pd
 import gzip
@@ -5,12 +6,11 @@ import os
 
 import config
 
-"""
-Split dataset to train/eval files
-Arguments:
-    all_files: array of dataset files
-"""
 def split_dataset_into_two_groups(all_files):
+    """ Split dataset to train/eval files
+    Args:
+        all_files: array of dataset files
+    """
     print("Started splitting dataset to A/B group")
     CONFIG = config.get_config()
     dtypes = config.get_types_of_attributes()
@@ -21,12 +21,12 @@ def split_dataset_into_two_groups(all_files):
     group_b.to_csv("data/b_data.csv.gz", compression="gzip", sep=CONFIG['CSV_SEPARATOR'], index=False, na_rep="null")
     print("Finished splitting dataset to A/B group")
 
-"""
-Split dataset to train/eval files
-Arguments:
-    all_files: array of dataset files
-"""
 def split_train_test(all_files):
+    """
+    Split dataset to train/eval files
+    Args:
+        all_files: array of dataset files
+    """
     print("Started train test split")
     CONFIG = config.get_config()
     dtypes = config.get_types_of_attributes()
@@ -42,12 +42,11 @@ def split_train_test(all_files):
     #        outfile.write(test_data.encode('utf-8'))
     print("Finished train test split")
 
-"""
-Calculate stats and saves in stats.json
-Arguments:
-    all_files: array of dataset files
-"""
 def calculate_stats(all_files):
+    """ Calculate stats and saves in stats.json
+    Args:
+        all_files: array of dataset files
+    """
     print("Started calculating stats")
     CONFIG = config.get_config()
     dtypes = config.get_types_of_attributes()
@@ -80,15 +79,14 @@ def calculate_stats(all_files):
     print("Finished calculating stats")
 
 
-"""
-Add extra columns to dataset and
-create column,  activity_rate = 30 * ( (test_games_7d / 7) / (feature_1_games_30d / 30) )
-                spend = 30 * (test_spend_7d / 7)
-                weight
-Arguments:
-    all_files: array of dataset files
-"""
 def add_extra_columns_to_dataset(all_files):
+    """ Add extra columns to dataset and
+    create column,  activity_rate = 30 * ( (test_games_7d / 7) / (feature_1_games_30d / 30) )
+                    spend = 30 * (test_spend_7d / 7)
+                    weight
+    Args:
+        all_files: array of dataset files
+    """
     print("Started adding extra columns to dataset")
     CONFIG = config.get_config()
     dtypes = config.get_types_of_attributes()

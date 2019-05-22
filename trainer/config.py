@@ -1,17 +1,23 @@
+""" Configuration script """
 import json
 import numpy as np
 import os
 
-"""
-Get the configurations from config file as object
-"""
 def get_config():
+    """ Get the configurations from config file as object
+    Returns:
+        A dictionary of configuration object
+    """
     CONFIG = None
     with open(os.getenv('GA_CONFIG_PATH'), 'r') as f:
         CONFIG = json.load(f)
     return CONFIG
 
 def get_types_of_attributes():
+    """ Get types of attributes
+    Returns:
+        dictionary of column name to type mapping
+    """
     return {
         'player_id' : np.string_,
         'feature_1_games_30d': np.double,
@@ -37,10 +43,14 @@ def get_types_of_attributes():
         'player_group' : np.string_,
         'weight' : np.double,
         'activity_rate' : np.double,
-        'spend' : np.double        
+        'spend' : np.double
     }
 
 def get_default_values_for_csv_columns():
+    """ Get default values for csv dataset file
+    Returns:
+        array of defalut values per column
+    """
     default_value_for_dtypes = {
         np.string_: "",
         np.int_: 0,

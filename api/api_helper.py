@@ -1,33 +1,31 @@
+""" API helper methods """
 import numpy as np
 import os
 import sys
 import json
 import requests
 
-"""
-Set configurations, raises error if config.json is not present
-"""
 def set_config():
+    """ Set configurations, raises error if config.json is not present
+    """
     with open(os.path.join(sys.path[0], 'config.json'), 'r') as f:
         settings = json.dumps(json.load(f))
         os.environ['GA_API_CONFIG'] = settings
 
-"""
-Get configurations
-Returns:
-    CONFIG dictionary
-"""
 def get_config():
+    """ Get configurations
+    Returns:
+        CONFIG dictionary
+    """
     return json.loads(os.getenv('GA_API_CONFIG'))
 
-"""
-Validate input
-Args:
-    request: http request object
-Returns:
-    a triple of (success, message, inputs)
-"""
 def validate_input(request):
+    """ Validate input
+    Args:
+        request: http request object
+    Returns:
+        a triple of (success, message, inputs)
+    """
     inputs = []
     groups = ['A', 'B']
     for group in groups:
@@ -38,42 +36,39 @@ def validate_input(request):
 
     return True, 'Input is valid', inputs
 
-"""
-Get value from results object
-Arguments:
-    result: prediction result object
-Returns:
-    value from result
-"""
 def get_value(result):
+    """ Get value from results object
+    Args:
+        result: prediction result object
+    Returns:
+        value from result
+    """
     try:
         value = result['results'][0]
         return value
     except Exception as e:
         return None
 
-"""
-Get predictions results joined in one
-Arguments:
-    result_a: prediction result of model_a
-    result_b: prediction result of model_b
-Returns:
-    joined results
-"""
 def get_joined_result(result_a, result_b):
+    """ Get predictions results joined in one
+    Args:
+        result_a: prediction result of model_a
+        result_b: prediction result of model_b
+    Returns:
+        joined results
+    """
     return {
         'results': [ get_value(result_a), get_value(result_b) ]
     }
 
-"""
-Get predictions for both groups for the different objectives
-Arguments:
-    inputs: list of input object
-    objectives: list of objective(string)
-Returns:
-    Predictions
-"""
 def get_predictions(inputs, request):
+    """ Get predictions for both groups for the different objectives
+    Args:
+        inputs: list of input object
+        objectives: list of objective(string)
+    Returns:
+        Predictions
+    """
     payload = {
         "examples": inputs
     }
@@ -95,14 +90,13 @@ def get_predictions(inputs, request):
 
     return spend_result, activity_change_result
 
-"""
-Get best group based on the predicted values
-Arguments:
-    result: prediction result
-Returns:
-    group (string)
-"""
 def get_best_group_single_objective(result):
+    """ Get best group based on the predicted values
+    Args:
+        result: prediction result
+    Returns:
+        group (string)
+    """
     group_max = None
     try:
         group_max = np.argmax(result["results"])
@@ -111,15 +105,14 @@ def get_best_group_single_objective(result):
 
     return group_max
 
-"""
-Get best group for activity based on the predicted values
-Arguments:
-    group_max_spend: group index with maximum spend
-    activity_change_result: prediction result for activity_change
-Returns:
-    group (int)
-"""
 def get_best_group(group_max_spend, activity_change_result):
+    """ Get best group for activity based on the predicted values
+    Args:
+        group_max_spend: group index with maximum spend
+        activity_change_result: prediction result for activity_change
+    Returns:
+        group (int)
+    """
     try:
         CONFIG = get_config()
         activity_change_max_spend = activity_change_result["results"][group_max_spend]
@@ -133,15 +126,14 @@ def get_best_group(group_max_spend, activity_change_result):
 
     return group_max_spend
 
-"""
-Allocate group based on the different objectives
-Arguments:
-    inputs: list of input object
-    objectives: list of objective(string)
-Returns:
-    Allocated group (string)
-"""
 def get_allocated_group(inputs, request):
+    """ Allocate group based on the different objectives
+    Args:
+        inputs: list of input object
+        objectives: list of objective(string)
+    Returns:
+        Allocated group (string)
+    """
     groups = ["A", "B"]
     spend_result, activity_change_result = get_predictions(inputs, request)
     group_max_spend = get_best_group_single_objective(spend_result)
@@ -155,18 +147,17 @@ def get_allocated_group(inputs, request):
         return groups[group_max_activity], spend_result, activity_change_result
 
     best_group_index = get_best_group(group_max_spend, activity_change_result)
-    
+
     return groups[best_group_index], spend_result, activity_change_result
 
-"""
-Make request to prediction api
-Aarguments:
-    model_name: name of the prediction model
-    payload: inputs for the api endpoint
-Returns:
-    predictions
-"""
 def make_request(model_name, payload):
+    """ Make request to prediction api
+    Args:
+        model_name: name of the prediction model
+        payload: inputs for the api endpoint
+    Returns:
+        predictions
+    """
     try:
         r = requests.post(get_config()['prediction_api'].format(model_name), json=payload)
         pred = json.loads(r.content.decode('utf-8'))

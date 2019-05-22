@@ -1,3 +1,5 @@
+""" Train and evaluate script """
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -17,11 +19,19 @@ import numpy as np
 CONFIG = None
 
 def get_weight_column():
+    """ Get weight column
+    Returns:
+        string of weight column
+    """
     if CONFIG['WEIGHT_COLUMN']:
         return CONFIG['WEIGHT_COLUMN']
     return None
 
 def get_run_config():
+    """ Get run configuration
+    Returns:
+        tf.estimator.RunConfig object
+    """
     return tf.estimator.RunConfig(
         save_checkpoints_steps = CONFIG['SAVE_CHECKPOINTS_STEPS'],
         save_summary_steps = CONFIG['SAVE_SUMMARY_STEPS'],
@@ -29,6 +39,10 @@ def get_run_config():
     )
 
 def get_tree_model():
+    """ Get boosted tree model
+    Returns:
+        Boosted tree estimator
+    """
     NUM_EXAMPLES = data.get_stats()['stats'][CONFIG['DATASET_ID']]['count']
     estimator = tf.estimator.BoostedTreesRegressor(
         feature_columns = data.get_feature_columns_for_tree(),
@@ -43,7 +57,12 @@ def get_tree_model():
     return estimator
 
 def get_dnn_regressor_model(hidden_units):
-
+    """ Get DNN model
+    Args:
+        hidden_units: array of integers describing network architecture
+    Returns:
+        DNN model
+    """
     # estimator = tf.estimator.DNNLinearCombinedRegressor(
     #     model_dir = CONFIG['MODEL_DIR'],
     #     weight_column = get_weight_column(),
@@ -95,10 +114,18 @@ def get_dnn_regressor_model(hidden_units):
     return estimator
 
 def get_base_line_model():
+    """ Get baseline model
+    Returns:
+        base line regressor
+    """
     # INFO:tensorflow:Saving dict for global step 4500: average_loss = 65.69961, global_step = 4500, label/mean = 1.5194641, loss = 1051.1937, prediction/mean = 1.5942994
     return tf.estimator.BaselineRegressor()
 
 def get_linear_model():
+    """ Get linear regression model
+    Returns:
+        a linear model
+    """
     estimator = tf.estimator.LinearRegressor(
         feature_columns = data.get_feature_columns(),
         model_dir = CONFIG['MODEL_DIR'],
@@ -118,23 +145,18 @@ def get_linear_model():
     return estimator
 
 
-""" Get the model definition """
 def get_model():
+    """ Get the model definition
+    Returns:
+        an estimator to train
+    """
     # return get_base_line_model()
     # return get_linear_model()
     # return get_tree_model()
     return get_dnn_regressor_model(CONFIG['NETWORK'])
 
-def ensemble_architecture(result):
-  """Extracts the ensemble architecture from evaluation results."""
-
-  architecture = result["architecture/adanet/ensembles"]
-  # The architecture is a serialized Summary proto for TensorBoard.
-  summary_proto = tf.summary.Summary.FromString(architecture)
-  return summary_proto.value[0].tensor.string_val[0]
-
-""" Train the model """
 def train_and_evaluate():
+    """ Train and evaluate the model """
     estimator = get_model()
     serving_feature_spec = tf.feature_column.make_parse_example_spec(
       data.get_feature_columns())
@@ -160,7 +182,6 @@ def train_and_evaluate():
     print("Finished training")
 
 def main(argv):
-
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_path', default='config.json', type=str, help='config path')
     parser.add_argument('--clean', default=0, type=int, help='Clean previously trained data')

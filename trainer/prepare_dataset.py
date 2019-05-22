@@ -1,3 +1,4 @@
+""" Dataset transormation script """
 import argparse
 import os
 
@@ -5,6 +6,10 @@ import config
 import dataset_helper
 
 def transform(CONFIG):
+    """ Transform dataset for training
+    Args:
+        CONFIG: configuration dictionary
+    """
     dataset_helper.add_extra_columns_to_dataset(CONFIG['DATASET_FILES'])
     dataset_helper.split_train_test(CONFIG['DATASET_FILES'])
     path = CONFIG['DATASET_TRAIN'][0]
