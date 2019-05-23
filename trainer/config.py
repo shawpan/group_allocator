@@ -42,7 +42,7 @@ def get_types_of_attributes():
         'test_spend_7d': np.double,
         'player_group' : np.string_,
         'weight' : np.double,
-        'activity_rate' : np.double,
+        'activity_change' : np.double,
         'spend' : np.double
     }
 

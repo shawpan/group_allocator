@@ -26,7 +26,7 @@ def test(row):
     print(data)
     r = requests.post(url=API_ENDPOINT, data=data)
     spend = row['test_spend_7d'] / 7.0
-    activity_change = ( (row['test_games_7d'] / 7.0) - (row['feature_1_games_30d'] / 30.0) )
+    activity_change = ( ( row['feature_1_games_30d'] / 30.0) / ( ( row['test_games_7d'] + 1 ) / 7.0) )
     print("Actual group={}, spend={}, activity={}".format(row["player_group"], spend, activity_change))
     print("{}".format(r.text))
 
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         'test_spend_7d': np.double,
         'player_group' : np.string_,
         'weight' : np.double,
-        'activity_rate' : np.double,
+        'activity_change' : np.double,
         'spend' : np.double,
     }
     API_ENDPOINT = "http://0.0.0.0:5000/group_allocator/predict?objective=spend&objective=activity".format(args.objective)
