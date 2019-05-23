@@ -157,4 +157,4 @@ sample response
 
 # Remarks
 
-Performance can be improved further because training loss decreased but the evaluation loss decay is too low throughout the training process. There is a clear scope of generalization improvement since the model is slightly overfitted (visible gap between training and evaluation loss ). Extensive feature engineering + hyperparameter tuning must improve the model further. To start with learning_rate can be decreased carefully and gradually before applying dropouts and a more and deep network. 
+Performance can be improved further because training loss decreased but the evaluation loss decay is too low throughout the training process. There is a clear scope of generalization improvement since the model is slightly overfitted (visible gap between training and evaluation loss ). Extensive feature engineering + hyperparameter tuning must improve the model further. To start with learning_rate can be decreased carefully and gradually before applying dropouts and a more narrow and deep network. 
