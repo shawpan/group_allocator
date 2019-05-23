@@ -81,8 +81,8 @@ def calculate_stats(all_files):
 
 def add_extra_columns_to_dataset(all_files):
     """ Add extra columns to dataset and
-    create column,  activity_rate = 30 * ( (test_games_7d / 7) / (feature_1_games_30d / 30) )
-                    spend = 30 * (test_spend_7d / 7)
+    create column,  activity_change = ( (feature_1_games_30d / 30) / ( ( test_games_7d + 1 ) / 7))
+                    spend = (test_spend_7d / 7)
                     weight
     Args:
         all_files: array of dataset files
