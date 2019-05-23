@@ -28,8 +28,13 @@ The procedure to run the application is described in [setup.md] https://github.c
 3. For features `feature_2` - `feature_18` are used. Numeric columns are normalized using `(x-mean)/(std + epsilon)` and categorical columns are transformed to hash buckets and then into embedding columns. bucket size is the number of uniques of the feature and embedding size = `6 * number of unique^0.25` if `number of unique > 25` otherwise `number of unique`. `trainer/plot_data.ipynb` notebook draws basic joint distribution charts.
 
 4. Models are Neural Networks having different hyperparameters i.e, number of layers, number of nodes in each layer, learning rate etc. for model_spend and model_activity also dependiing on dataset A and B.
-`tf.estimator.DNNLinearCombinedRegressor` is used so that a `linear` model as a baseline is trained also in parallel to the `DNN` model.
-Tried `tf.estimator.BoostedTreesRegressor` but performance did not increase so sticking to `tf.estimator.DNNLinearCombinedRegressor` for now.
+`tf.estimator.BaseLineRegressor` is used as a baseline.
+Tried
+`tf.estimator.DNNRegressor`,
+`tf.estimator.LinearRegressor`,
+`tf.estimator.BoostedTreesRegressor`,
+`tf.estimator.DNNLinearCombinedRegressor` (combines linear + dnn)
+at the end sticking to `tf.estimator.DNNRegressor` for the best performance.
      - `trainer/train.py` has the training models
      - `trainer/data.py` has the dataset api methods
      - `trainer/config_*.json` (4 files) have the configurations of hyperparameters.
@@ -152,4 +157,4 @@ sample response
 
 # Remarks
 
-Performance can be improved further because training loss decreased but the evaluation loss decay is too low throughout the training process. Need more hyperparameter tuning. Both `tf.estimator.DNNLinearCombinedRegressor` and `tf.estimator.BoostedTreesRegressor`
+Performance can be improved further because training loss decreased but the evaluation loss decay is too low throughout the training process. There is a clear scope of generalization improvement since the model is slightly overfitted (visible gap between training and evaluation loss ). Extensive feature engineering + hyperparameter tuning must improve the model further. To start with learning_rate can be decreased carefully and gradually before applying dropouts and a more and deep network. 
