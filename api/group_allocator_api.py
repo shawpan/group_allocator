@@ -13,7 +13,7 @@ CORS(app)
 
 @app.route('/group_allocator/predict', methods=['POST'])
 def group_allocator():
-    is_valid_input , response, inputs = api_helper.validate_input(request)
+    is_valid_input, message, inputs = api_helper.validate_input(request)
 
     if not is_valid_input:
         return jsonify(success=False, errors = { 'message': message })
