@@ -1,3 +1,4 @@
+# Maybe multiarmed bandit is a better approach here?? will try later
 # Set up
 The procedure to run the application is described in [setup.md] https://github.com/shawpan/group_allocator/blob/master/setup.md
 
